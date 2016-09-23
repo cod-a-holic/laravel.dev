@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Employee;
 
 class EmployeeController extends Controller
@@ -16,25 +14,52 @@ class EmployeeController extends Controller
 
     public function index()
     {
+        $employees = Employee::where('director_id', null)->get();
 
-        $employees = Employee::all();
+        return view('employee.index', ['employees' => $employees]);
+    }
 
-        return view('employee.index', ['employees' => Employee::paginate(20)]);
+    public function subordinates(Employee $employee)
+    {
+        $employees = $employee->getSubordinates();
+        $returnHTML = view('employee.partial.subordinates')->with('employees', $employees)->render();
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
 
     public function edit(Employee $employee)
     {
-
-        $directors = Employee::where('position', 'senior developer')
+        $directors = Employee::where('position', $employee->getDirectors()[0]->position)
             ->select('id', \DB::raw("CONCAT(first_name,' ',last_name)  AS fullname"))
             ->get();
 
         return view('employee.edit', compact('employee', 'directors'));
     }
 
-    public function update()
+    public function view(Employee $employee)
     {
 
-        return null;
+        return view('employee.view', compact('employee'));
+    }
+
+    public function update(Request $request, Employee $employee)
+    {
+        $employee->update($request->all());
+        if(null !== $request->file('avatar')){
+            $file = $request->file('avatar');
+            $avatar = md5($file->getClientOriginalName()) .'.'. $file->clientExtension();
+            $file->move(public_path('avatars'), $avatar);
+            $employee->update(['avatar' => $avatar]);
+        }
+
+        return back();
+    }
+
+    public function search($search)
+    {
+        $employees = Employee::search($search)->get('all');
+        $returnHTML = view('employee.partial.subordinates')->with('employees', $employees)->render();
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
 }

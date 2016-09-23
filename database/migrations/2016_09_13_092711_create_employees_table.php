@@ -17,9 +17,10 @@ class CreateEmployeesTable extends Migration
             $table->increments('id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('avatar')->nullable();
             $table->string('position');
             $table->float('salary');
-            $table->integer('director_id')->default(0)->unsigned()->index();
+            $table->integer('director_id')->nullable()->unsigned()->index();
             $table->dateTime('recruitment_at')->nullable();
             $table->timestamps();
         });

@@ -12,11 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
 Route::get('/employees', 'EmployeeController@index');
+Route::get('/employees/{employee}', 'EmployeeController@view');
 Route::get('/employees/{employee}/edit', 'EmployeeController@edit');
+Route::get('/employees/search/{search}', 'EmployeeController@search');
+Route::patch('/employees/{employee}', 'EmployeeController@update');
+Route::get('/subordinates/{employee}', 'EmployeeController@subordinates');

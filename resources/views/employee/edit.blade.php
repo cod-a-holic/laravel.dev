@@ -6,12 +6,12 @@
             <h2 class="text-center">{{ $employee->first_name }} {{ $employee->last_name }}</h2>
             <hr>
             <div class="row">
-                {{ Form::open(/*['action' => ['EmployeeController@update', $employee->id], 'files' => true ]*/) }}
+                {{ Form::open(['action' => ['EmployeeController@update', $employee->id], 'files' => true ]) }}
 
                 {{method_field('PATCH')}}
 
                 <div class="col-md-3" style="overflow: hidden">
-                    <img style="width: 150px;" src="https://www.gravatar.com/avatar/" />
+                    <img width="150px"  src="{{'/avatars/'.$employee->avatar}}" />
                     <div class="form-group">
                         {{ Form::file('avatar') }}
                     </div>
@@ -41,8 +41,11 @@
 
                     <div class="form-group">
                         {{ Form::label('director_id', 'Director:') }}
-                        {{ Form::select('director_id', $directors, $employee->director_id,
-                        ['class' => 'form-control']) }}
+                        <select class="form-control" name="director_id">
+                            @foreach($directors as $director)
+                                <option  @if($employee->director_id == $director->id) selected @endif value="{{$director->id}}">{{$director->fullname}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group">
