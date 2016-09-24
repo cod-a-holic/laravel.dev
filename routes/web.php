@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/employees', 'EmployeeController@index');
 Route::get('/employees/{employee}', 'EmployeeController@view');
+Route::delete('/employees/{employee}', 'EmployeeController@delete')->name('employees.delete');
 Route::get('/employees/{employee}/edit', 'EmployeeController@edit');
 Route::get('/employees/search/{search}', 'EmployeeController@search');
 Route::patch('/employees/{employee}', 'EmployeeController@update');

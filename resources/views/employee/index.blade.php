@@ -52,7 +52,7 @@
                 @foreach($employees as $employee)
                     @include('employee.partial.subordinate')
                     <div class="list-group">
-                        @foreach($employee->getSubordinates() as $employee)
+                        @foreach($employee->subordinates as $employee)
                             @include('employee.partial.subordinate')
                         @endforeach
                     </div>
@@ -87,6 +87,7 @@
                 }
             })
         });
+
     });
 </script>
 

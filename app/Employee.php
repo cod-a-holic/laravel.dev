@@ -28,24 +28,13 @@ class Employee extends Model
 
     public function subordinates()
     {
-        return $this->hasMany(User::class, 'director_id');
+        return $this->hasMany(Employee::class, 'director_id');
     }
 
     public function director()
     {
 
-        return $this->hasOne(User::class, 'director_id');
+        return $this->hasOne(Employee::class, 'director_id');
     }
-
-    public function getSubordinates()
-    {
-        return Db::table('employees')->where('director_id', $this->id)->get();
-    }
-
-    public function getDirectors()
-    {
-        return DB::table('employees')->select('position')->where('id', $this->director_id)->get();
-    }
-
 
 }
