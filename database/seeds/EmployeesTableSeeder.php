@@ -17,12 +17,12 @@ class EmployeesTableSeeder extends Seeder
             'salary' => 150000,
             'director_id' => null,
         ])->each(function (Employee $e) {
-            $e->subordinates()->saveMany(factory(App\Employee::class, 10)->create([
+            $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
                 'position' => 'senior developer',
                 'salary' => 100000,
                 'director_id' => "$e->id"
             ])->each(function (Employee $e) {
-                $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
+                $e->subordinates()->saveMany(factory(App\Employee::class, 6)->create([
                     'position' => 'middle developer',
                     'salary' => 50000,
                     'director_id' => "$e->id"
@@ -32,7 +32,7 @@ class EmployeesTableSeeder extends Seeder
                         'salary' => 25000,
                         'director_id' => "$e->id"
                     ])->each(function(Employee $e) {
-                        $e->subordinates()->saveMany(factory(App\Employee::class, 2)->create([
+                        $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
                             'position' => 'trainee developer',
                             'salary' => 10000,
                             'director_id' => "$e->id"

@@ -33,9 +33,12 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee)
     {
-        $directors = Employee::where('position', $employee->director->position)
-            ->select('id', \DB::raw("CONCAT(first_name,' ',last_name)  AS fullname"))
-            ->get();
+        $director = Employee::find($employee->director_id);
+        $directors = null;
+
+        if($director){
+            $directors = Employee::where('position', $director->position)->get();
+        }
 
         return view('employee.edit', compact('employee', 'directors'));
     }
@@ -50,6 +53,7 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $employee->update($request->all());
+
         if(null !== $request->file('avatar')){
             $file = $request->file('avatar');
             $avatar = md5($file->getClientOriginalName()) .'.'. $file->clientExtension();
@@ -64,9 +68,14 @@ class EmployeeController extends Controller
     public function search($search)
     {
         $employees = Employee::search($search)->get('all');
-        $returnHTML = view('employee.partial.subordinates')->with('employees', $employees)->render();
+        if(count($employees)){
+            $returnHTML = view('employee.partial.subordinates')->with('employees', $employees)->render();
 
-        return response()->json(array('success' => true, 'html'=>$returnHTML));
+            return response()->json(array('success' => true, 'html'=>$returnHTML));
+        }
+
+        return $this->index();
+
     }
 
     public function delete(Employee $employee)

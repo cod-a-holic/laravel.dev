@@ -169,6 +169,9 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Lord\Laroute\LarouteServiceProvider::class,
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
+
 
         /*
          * Application Service Providers...

@@ -4,12 +4,20 @@ namespace App;
 
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Employee extends Model
 {
 
     use Searchable;
+
+
+    //fields you want to make searchable
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        return $array;
+    }
 
     /**
      * The attributes that are mass assignable.

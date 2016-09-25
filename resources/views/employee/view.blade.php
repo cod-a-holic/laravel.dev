@@ -1,59 +1,45 @@
 @extends('layouts.app')
-
 @section('content')
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="col-md-3" style="overflow: hidden">
-                <img width="150px"  src="{{'/avatars/'.$employee->avatar}}" />
-            </div>
-            <div class="col-md-9">
-                <div class="list-group">
-                    <h3>Name:</h3>
-                    <p>{{ $employee->first_name }} {{ $employee->last_name }}</p>
-                </div>
-                <div class="list-group">
-                    <h3>Position:</h3>
-                    <p>{{$employee->position}}</p>
-                </div>
-                <div class="list-group">
-                    <h3>Salary:</h3>
-                    <p>{{$employee->salary}}$</p>
-                </div>
-                <div class="list-group">
-                    <h3>Employment date:</h3>
-                    <p>{{$employee->created_at}}</p>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ $employee->first_name }} {{ $employee->last_name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{{'/avatars/'.$employee->avatar}}" class="img-rounded img-responsive"> </div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Position:</td>
+                                        <td>{{ $employee->position }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Salary:</td>
+                                        <td>{{ $employee->salary }} $</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth</td>
+                                        <td>{{ $employee->created_at }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="/employees" type="button" class="btn btn-sm btn-primary"><i class="fa fa-mail-reply"></i></a>
+                        <span class="pull-right">
+                            <a href="{{url('/employees/'.$employee->id.'/edit')}}" type="button" class="btn btn-sm btn-warning"><i class="fa fa-sun-o"></i> Edit</a>
+                            <a type="button" class="btn btn-sm btn-danger" data-id="{{ $employee->id }}" data-token="{{ csrf_token() }}" id="deleteEmployee"><i class="fa fa-trash-o"></i> Delete</a>
+                        </span>
+                    </div>
 
-
-                <div class="list-group">
-                    <a data-url="{{ route('employees.delete', ['employees' => $employee]) }}" class="btn btn-danger delete">Delete</a>
-                    <a href="/employees/{{$employee->id}}/edit" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>
     </div>
 @stop
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function(){
-        $('.delete').click(function(){
-            var url = $(this).data('url');
-            console.log(url);
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(data){
-                    if(data = true){
-                        window.location.href = "{{ url('/employees') }}"
-                    }
-
-                }
-            })
-
-        });
-    })
-</script>
