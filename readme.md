@@ -16,7 +16,7 @@ To install project:
 
        php artisan db:seed
         
-        
 4. To sync the data with the search service:
      
        php artisan scout:import App\\Employee
+       
