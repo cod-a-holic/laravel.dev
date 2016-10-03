@@ -1,6 +1,6 @@
 # Laravel Test App
 
-To install project:
+Project setup:
 
 1. Run this command
             
