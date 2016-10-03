@@ -22,17 +22,17 @@ class EmployeesTableSeeder extends Seeder
                 'salary' => 100000,
                 'director_id' => "$e->id"
             ])->each(function (Employee $e) {
-                $e->subordinates()->saveMany(factory(App\Employee::class, 6)->create([
+                $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
                     'position' => 'middle developer',
                     'salary' => 50000,
                     'director_id' => "$e->id"
                 ])->each(function(Employee $e) {
-                    $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
+                    $e->subordinates()->saveMany(factory(App\Employee::class, 3)->create([
                         'position' => 'junior developer',
                         'salary' => 25000,
                         'director_id' => "$e->id"
                     ])->each(function(Employee $e) {
-                        $e->subordinates()->saveMany(factory(App\Employee::class, 5)->create([
+                        $e->subordinates()->saveMany(factory(App\Employee::class, 3)->create([
                             'position' => 'trainee developer',
                             'salary' => 10000,
                             'director_id' => "$e->id"
